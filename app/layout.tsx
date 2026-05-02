@@ -14,8 +14,8 @@ const bodyFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Notification System',
-  description: 'Frontend notification system built with Next.js, TypeScript, and Material UI.'
+  title: 'Campus Notifications Microservice',
+  description: 'Protected frontend dashboard for campus notifications built with Next.js, TypeScript, and Material UI.'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

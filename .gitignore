@@ -1,5 +1,7 @@
 node_modules/
+# Next.js build artifacts
 .next/
+.next/cache/
 out/
 dist/
 coverage/

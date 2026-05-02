@@ -1,3 +1,5 @@
+import { getEvaluationAccessToken } from '../lib/evaluationAuth';
+
 export type LogStack = 'backend' | 'frontend';
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 export type LogPackage =
@@ -25,7 +27,6 @@ export interface LogResponse {
 }
 
 const LOG_API_URL = 'http://20.207.122.201/evaluation-service/logs';
-const AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJuaXRoaW5fa29tbWlAc3JtYXAuZWR1LmluIiwiZXhwIjoxNzc3Njk5Mjg0LCJpYXQiOjE3Nzc2OTgzODQsImlzcyI6IkFmZm9yZCBNZWRpY2FsIFRlY2hub2xvZ2llcyBQcml2YXRlIExpbWl0ZWQiLCJqdGkiOiI3MWFhNTMyNS0zMjc4LTQ5YWMtOTk0Ni0zOTVkYWQyYTRlN2YiLCJsb2NhbGUiOiJlbi1JTiIsIm5hbWUiOiJuaXRoaW4ga29tbWkiLCJzdWIiOiJlYmY1ODdmYi0yMTYyLTQxOTMtYjYzNC1lMDBhMjk3ZWZmYzEifSwiZW1haWwiOiJuaXRoaW5fa29tbWlAc3JtYXAuZWR1LmluIiwibmFtZSI6Im5pdGhpbiBrb21taSIsInJvbGxObyI6ImFwMjMxMTAwMTEyODciLCJhY2Nlc3NDb2RlIjoiUWticHhIIiwiY2xpZW50SUQiOiJlYmY1ODdmYi0yMTYyLTQxOTMtYjYzNC1lMDBhMjk3ZWZmYzEiLCJjbGllbnRTZWNyZXQiOiJkQVhGTUFKbmhOWWpzZU1UIn0.Y5TQsjaasn6JRz0IecxA4D2qFKZHcPzatzsuPVslwaQ';
 
 const allowedStacks: LogStack[] = ['backend', 'frontend'];
 const allowedLevels: LogLevel[] = ['debug', 'info', 'warn', 'error', 'fatal'];
@@ -62,12 +63,13 @@ function validateLogRequest(payload: LogRequest) {
 
 export async function log(payload: LogRequest): Promise<LogResponse> {
   validateLogRequest(payload);
+  const authToken = await getEvaluationAccessToken();
 
   const response = await fetch(LOG_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${AUTH_TOKEN}`
+      Authorization: `Bearer ${authToken}`
     },
     body: JSON.stringify(payload)
   });

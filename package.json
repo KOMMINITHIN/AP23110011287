@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "clean": "node -e \"const fs=require('fs');fs.rmSync('.next',{recursive:true,force:true});\"",
+    "stage1": "node scripts/stage1-report.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.5",
